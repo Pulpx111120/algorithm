@@ -1,0 +1,20 @@
+Bài toán tối ưu hóa được giải theo các kỹ thuật: -Tham ăn
+						 -Quy hoạch động
+						 -Nhánh cận
+
+
+================================== Tham ăn (Greedy) ==================================
+
+Mã hóa Huffman: Dùng 1 hàng ưu tiên Min Heap
+Tham ăn: luôn chọn 2 danh sách có độ dài nhỏ nhất và trộn. Lặp liên tục đến khi chỉ còn một danh sách duy nhất
+Giải thuật:
+	1. Đọc số phần tử n
+	2. Đọc từng phần tử của mảng L
+	3. Dựng Min Heap Q từ mảng L
+	4. count=0
+	5. Lặp (Q.size() != 1)
+		a. k1 = Q.extractMin()
+		b. k2 = Q.extractMin()
+		c. count += (k1+k2)
+		d. Chèn k1+k2 vào Q
+	6. Hiển thị count

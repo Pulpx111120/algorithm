@@ -1,0 +1,21 @@
+DFS & BFS
+
+-DFS (Depth First Search - Duyệt theo chiều sâu)
+DFS(w){
+	-Thăm w
+	-Xét v kề với w
+		Nếu v chưa được thăm
+			DFS(v)
+}
+
+-BFS (Breadth First Search - Duyệt theo chiều rộng)
+BFS(w){
+	-Thăm w
+	-Thêm w vào hàng đợi Q
+	-Lặp (Q!=NULL)
+		+Lấy nút v từ Q
+		+Xét nút u kề với v
+			Nếu u chưa được thăm
+				Thăm u 
+				Thêm u vào hàng đợi
+}
