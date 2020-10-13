@@ -1,6 +1,6 @@
 #include <stdio.h>
-#define MAX_VERTICES 100
 #define MAX_ELEMENTS 100
+#define MAX_VERTICES 100
 
 /***************************************** Graph *****************************************/
 typedef struct {
@@ -93,4 +93,42 @@ List neighbors (Graph* G, int x) {
 	return L;
 }
 
-/*****************************************************************************************/
+/****************************************************************************************/
+/**************************************** De quy ****************************************/
+/* Bien ho tro */
+int mark[MAX_VERTICES];
+
+/* Duyet de quy dinh x */
+void traversal (Graph* G, int x) {
+	/* Neu dinh x da duyet, khong lam gi ca */
+	if (mark[x] == 1)
+		return;
+	/* Nguoc lai, duyet no */
+	else {
+		printf("Duyet %d\n", x);
+		mark[x] = 1;
+	}
+	
+	/* Lay cac dinh ke cua no va duyet cac dinh ke */
+	List list = neighbors(G, x);
+	int j, i;
+	for (j = 1; j <= list.size; j++) {
+		int y = element_at(&list, j);
+		traversal(G, y);
+	}
+}
+
+void depth_first_search (Graph* G) {
+	/* Khoi tao mark, chua dinh nao duoc xet */
+	int i, j;
+	for (j = 1; j <= G->n; j++)
+		mark[j] = 0;
+	traversal(G, 1);
+	for (i = 1; i <= G->n; i++) {
+		if (mark[i] == 0) {
+			traversal(G, i);
+		}
+	}
+}
+
+/****************************************************************************************/

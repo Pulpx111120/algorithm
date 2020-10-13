@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <E:/LTDT/TH1/ma_tran_dinh_dinh/Graph.c>
 
 int main() {
 	Graph G;
-	freopen("test2.txt", "r", stdin);
+	freopen("test2.inp", "r", stdin);
 	int n, i, v, a, b; 
 	scanf("%d%d", &n, &v);
 	init_graph(&G, n);

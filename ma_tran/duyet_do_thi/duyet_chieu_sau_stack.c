@@ -93,4 +93,75 @@ List neighbors (Graph* G, int x) {
 	return L;
 }
 
-/*****************************************************************************************/
+/****************************************************************************************/
+/***************************************** Stack *****************************************/
+typedef struct {
+	int data[MAX_ELEMENTS];
+	int size;
+} Stack;
+
+/* Tao Stack rong */
+void make_null_stack (Stack* S) {
+	S->size = 0;
+}
+
+/* Them phan tu vao dau Stack */
+void push (Stack* S, int x) {
+	S->data[S->size] = x;
+	S->size++;
+}
+
+/* Tra ve phan tu dau Stack */
+int top (Stack* S) {
+	return S->data[S->size - 1];
+}
+
+/* Xoa phan tu dau Stack */
+void pop (Stack* S) {
+	S->size--;
+}
+
+/* Kiem tra Stack rong */
+int empty (Stack* S) {
+	return S->size == 0;
+}
+
+/* Duyet do thi theo chieu sau */
+void depth_first_search (Graph* G) {
+	Stack frontier;
+	int mark[MAX_VERTICES];
+	make_null_stack(&frontier);
+	
+	/* Khoi tao mark, chua dinh nao duoc xet */
+	int j;
+	for (j = 1; j <= G->n; j++)
+		mark[j] = 0;
+		
+	/* Dua 1 vao frontier: Truong hop xet tu dinh dau tien */
+	printf("Xet tu dinh 1\n");
+	push(&frontier, 1);
+	
+	/* Dua vao dinh can xet: Truong hop nhap vao */
+//	int x; scanf("%d", &x); printf("Xet tu dinh %d\n", x);
+//	push(&frontier, x);
+//	mark[x] = 1;
+	
+	/* Vong lap chinh dung de duyet */
+	while (!empty(&frontier)) {
+		/* Lay phan tu dau tien trong frontier ra */
+		int x = top(&frontier); pop(&frontier);
+		if (mark[x] != 0) // Da duyet roi, bo qua
+			continue;
+		printf("Duyet %d\n", x);
+		mark[x] = 1; // Danh dau no da duyet
+		/* Lay cac dinh ke cua no */
+		List list = neighbors(G, x);
+		/* Xet cac dinh ke cua no */
+		for (j = 1; j <= list.size; j++) {
+			int y = element_at(&list, j);
+				push(&frontier, y);
+		}
+	}
+}
+
+/****************************************************************************************/

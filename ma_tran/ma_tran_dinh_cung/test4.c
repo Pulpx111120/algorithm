@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <E:/LTDT/TH1/ma_tran_dinh_cung/Graph.c>
 
 int main(int argc, char* argv[]) {
 	Graph G;
