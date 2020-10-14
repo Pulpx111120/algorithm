@@ -125,29 +125,20 @@ int empty (Queue* Q) {
 	return Q->front > Q->rear;
 }
 
+/* Bien ho tro */
+int mark[MAX_VERTICES];
+
 /* Duyet do thi theo chieu rong */
-void breath_first_search (Graph* G) {
+void breath_first_search (Graph* G, int x) {
 	Queue frontier;
-	int mark[MAX_VERTICES];
 	make_null_queue(&frontier);
 	
 	/* Khoi tao mark, chua dinh nao duoc xet */
-	int j;
-	for (j = 1; j <= G->n; j++)
-		mark[j] = 0;
+	int i, j;
 		
-	/* Dua 1 vao frontier: Truong hop xet tu dinh dau tien */
-	printf("Xet tu dinh 1\n");
-	push(&frontier, 1);
-	
-	/* Duyet 1 */
-	printf("Duyet 1\n");
-	mark[1] = 1;
-	
-	/* Nhap vao dinh can xet: Truong hop nhap */
-//	int x; scanf("%d", &x); printf("Xet tu dinh %d\n", x);
-//	push(&frontier, x);
-//	mark[x] = 1;
+	push(&frontier, x);
+	printf("Duyet %d\n", x); /* Duyet 1 */
+	mark[x] = 1;
 	
 	/* Vong lap chinh dung de duyet */
 	while (!empty(&frontier)) {
@@ -165,6 +156,25 @@ void breath_first_search (Graph* G) {
 			}
 		}
 	}
+	
+	for (i = 1; i <= G->n; i++)
+		if (mark[i] == 0)
+			breath_first_search(G, i);
 }
 
 /****************************************************************************************/
+int main() {
+	freopen("test2.inp", "r", stdin);
+	Graph G;
+	int n, m, i, j;
+	scanf("%d%d", &n, &m);
+	init_graph(&G, n);
+	for (i = 0; i < m; i++) {
+		int a, b; scanf("%d%d", &a, &b);
+		add_edge(&G, a, b);
+	}
+	for (j = 1; j <= G.n; j++)
+		mark[j] = 0;
+	breath_first_search(&G, 1);
+	return 0;
+}

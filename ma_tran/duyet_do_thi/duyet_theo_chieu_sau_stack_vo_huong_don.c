@@ -92,79 +92,95 @@ List neighbors (Graph* G, int x) {
 	return L;
 }
 
-/***************************************** Queue ****************************************/
+/***************************************** Stack *****************************************/
 typedef struct {
 	int data[MAX_ELEMENTS];
-	int front, rear;
-} Queue;
+	int size;
+} Stack;
 
-/* Tao Queue rong */
-void make_null_queue (Queue* Q) {
-	Q->front = 0;
-	Q->rear = -1;
+/* Tao Stack rong */
+void make_null_stack (Stack* S) {
+	S->size = 0;
 }
 
-/* Dua phan tu vao cuoi Queue */
-void push (Queue* Q, int x) {
-	Q->rear++;
-	Q->data[Q->rear] = x;
+/* Them phan tu vao dau Stack */
+void push (Stack* S, int x) {
+	S->data[S->size] = x;
+	S->size++;
 }
 
-/* Tra ve phan tu dau Queue */
-int top (Queue* Q) {
-	return Q->data[Q->front];
+/* Tra ve phan tu dau Stack */
+int top (Stack* S) {
+	return S->data[S->size - 1];
 }
 
-/* Xoa phan tu dau Queue */
-void pop (Queue* Q) {
-	Q->front++;
+/* Xoa phan tu dau Stack */
+void pop (Stack* S) {
+	S->size--;
 }
 
-/* Kiem tra Queue rong */
-int empty (Queue* Q) {
-	return Q->front > Q->rear;
+/* Kiem tra Stack rong */
+int empty (Stack* S) {
+	return S->size == 0;
 }
 
-/* Duyet do thi theo chieu rong */
-void breath_first_search (Graph* G) {
-	Queue frontier;
-	int mark[MAX_VERTICES];
-	make_null_queue(&frontier);
+/* Bien ho tro */
+int mark[MAX_VERTICES];
+
+/* Duyet do thi theo chieu sau */
+void depth_first_search (Graph* G, int x) {
+	Stack frontier;
+	make_null_stack(&frontier);
 	
 	/* Khoi tao mark, chua dinh nao duoc xet */
-	int j;
-	for (j = 1; j <= G->n; j++)
-		mark[j] = 0;
+	int i, j;
 		
-	/* Dua 1 vao frontier: Truong hop xet tu dinh dau tien */
-	printf("Xet tu dinh 1\n");
-	push(&frontier, 1);
-	
-	/* Duyet 1 */
-	printf("Duyet 1\n");
-	mark[1] = 1;
-	
-	/* Nhap vao dinh can xet: Truong hop nhap */
-//	int x; scanf("%d", &x); printf("Xet tu dinh %d\n", x);
-//	push(&frontier, x);
-//	mark[x] = 1;
+	push(&frontier, x);
 	
 	/* Vong lap chinh dung de duyet */
 	while (!empty(&frontier)) {
 		/* Lay phan tu dau tien trong frontier ra */
 		int x = top(&frontier); pop(&frontier);
+		if (mark[x] != 0) // Da duyet roi, bo qua
+			continue;
+		printf("Duyet %d\n", x);
+		mark[x] = 1; // Danh dau no da duyet
 		/* Lay cac dinh ke cua no */
 		List list = neighbors(G, x);
 		/* Xet cac dinh ke cua no */
 		for (j = 1; j <= list.size; j++) {
 			int y = element_at(&list, j);
-			if (mark[y] == 0) { // y chua duyet, duyet no
-				printf("Duyet %d\n", y);
-				mark[y] = 1; // Danh dau y da duyet
-				push(&frontier, y); // Dua vao hang doi de lat nua xet
-			}
+			push(&frontier, y);
 		}
 	}
+	
+	for (i = 1; i <= G->n; i++)
+		if (mark[i] == 0)
+			depth_first_search(G, i);
 }
 
 /****************************************************************************************/
+int main() {
+	freopen("test1.inp", "r", stdin);
+	Graph G;
+	int n, m, i, j;
+	scanf("%d%d", &n, &m);
+	init_graph(&G, n);
+	for (i = 0; i < m; i++) {
+		int a, b; scanf("%d%d", &a, &b);
+		add_edge(&G, a, b);
+	}
+	for (j = 1; j <= G.n; j++)
+		mark[j] = 0;
+//	for (i = 1; i <= m; i++)
+//		printf("deg(%d) = %d\n", i, degree(&G, i));
+//	for (i = 1; i <= n; i++) {
+//		List L = neighbors(&G, i);
+//		printf("Cac dinh ke cua %d: [ ", i);
+//		for (j = 1; j <= L.size; j++)
+//			printf("%d ", element_at(&L, j));
+//		printf("]\n");
+//	}
+	depth_first_search(&G, 1);
+	return 0;
+}	

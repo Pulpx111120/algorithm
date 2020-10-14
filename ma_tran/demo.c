@@ -52,6 +52,7 @@ int degrees (Graph* G, int x) {
 	return deg;
 }
 
+/****************************************************************************************/
 /***************************************** List *****************************************/
 typedef int ElementType;
 
@@ -92,79 +93,72 @@ List neighbors (Graph* G, int x) {
 	return L;
 }
 
-/***************************************** Queue ****************************************/
-typedef struct {
-	int data[MAX_ELEMENTS];
-	int front, rear;
-} Queue;
+/* Mot so bien ho tro */
+int color[MAX_VERTICES];
+int fail;
 
-/* Tao Queue rong */
-void make_null_queue (Queue* Q) {
-	Q->front = 0;
-	Q->rear = -1;
-}
-
-/* Dua phan tu vao cuoi Queue */
-void push (Queue* Q, int x) {
-	Q->rear++;
-	Q->data[Q->rear] = x;
-}
-
-/* Tra ve phan tu dau Queue */
-int top (Queue* Q) {
-	return Q->data[Q->front];
-}
-
-/* Xoa phan tu dau Queue */
-void pop (Queue* Q) {
-	Q->front++;
-}
-
-/* Kiem tra Queue rong */
-int empty (Queue* Q) {
-	return Q->front > Q->rear;
-}
-
-/* Duyet do thi theo chieu rong */
-void breath_first_search (Graph* G) {
-	Queue frontier;
-	int mark[MAX_VERTICES];
-	make_null_queue(&frontier);
-	
-	/* Khoi tao mark, chua dinh nao duoc xet */
-	int j;
-	for (j = 1; j <= G->n; j++)
-		mark[j] = 0;
-		
-	/* Dua 1 vao frontier: Truong hop xet tu dinh dau tien */
-	printf("Xet tu dinh 1\n");
-	push(&frontier, 1);
-	
-	/* Duyet 1 */
-	printf("Duyet 1\n");
-	mark[1] = 1;
-	
-	/* Nhap vao dinh can xet: Truong hop nhap */
-//	int x; scanf("%d", &x); printf("Xet tu dinh %d\n", x);
-//	push(&frontier, x);
-//	mark[x] = 1;
-	
-	/* Vong lap chinh dung de duyet */
-	while (!empty(&frontier)) {
-		/* Lay phan tu dau tien trong frontier ra */
-		int x = top(&frontier); pop(&frontier);
-		/* Lay cac dinh ke cua no */
+/* To mau dinh bang phuong phap de quy */
+void colorize (Graph* G, int x, int c) {
+	/* Neu dinh x da chua co mau, to no */
+	if (color[x] == -1) {
+		color[x] = c;
+		/* Lay cac dinh ke va to mau cac dinh ke bang mau nguoc voi c */
 		List list = neighbors(G, x);
-		/* Xet cac dinh ke cua no */
+		int j;
 		for (j = 1; j <= list.size; j++) {
 			int y = element_at(&list, j);
-			if (mark[y] == 0) { // y chua duyet, duyet no
-				printf("Duyet %d\n", y);
-				mark[y] = 1; // Danh dau y da duyet
-				push(&frontier, y); // Dua vao hang doi de lat nua xet
-			}
+			colorize(G, y, !c);
 		}
+	} else { /* x da co mau */
+		if (color[x] != c) /* 1 dinh bi to 2 mau khac nhau */
+			fail = 1; /* that bai */
 	}
 }
 
-/****************************************************************************************/
+/* Kiem tra do thi co la do thi phan doi */
+int is_bigraph (Graph* G) {
+	/* Khoi tao color, chua dinh nao co mau */
+	int j;
+	for (j = 1; j <= G->n; j++)
+		color[j] = -1;
+	fail = 0;
+	colorize(G, 1, 0); /* To mau dinh 1 bang mau den */
+	/* Neu khong that bai, G la bigraph */
+	return !fail;
+}
+
+void tmp (Graph* G) {
+	int i, j;
+	for (i = 1; i <= G->n; i++) {
+		printf("%d", i);
+		List L = neighbors(G, i);
+		for (j = 1; j <= L.size; j++) {
+			if (element_at(&L, j) != i)
+				printf(" %d");
+		}
+		printf("\n");
+	}
+}
+
+int main() {
+	freopen("demo.txt", "r", stdin);
+	Graph G;
+	int n, m, i, j;
+	scanf("%d%d", &n, &m);
+	init_graph(&G, n);
+	for (i = 0; i < m; i++) {
+		int a, b; scanf("%d%d", &a, &b);
+		add_edge(&G, a, b);
+	}
+//	if (is_bigraph(&G))
+//		tmp(&G);
+//	else printf("IMPOSSIBLE");
+	for (i = 1; i <= n; i++) {
+		List L = neighbors(&G, i);
+		printf("Cac dinh ke cua %d: [ ", i);
+		for (j = 1; j <= L.size; j++)
+			printf("%d ", element_at(&L, j));
+		printf("]\n");
+	}
+	return 0;
+}

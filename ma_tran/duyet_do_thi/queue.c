@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <E:/LTDT/TH2/duyet_do_thi/duyet_theo_chieu_rong_queue.c>
 
 int main() {
-	freopen("test2.inp", "r", stdin);
+	freopen("queue.inp", "r", stdin);
 	Graph G;
 	int n, m, i, j;
 	scanf("%d%d", &n, &m);

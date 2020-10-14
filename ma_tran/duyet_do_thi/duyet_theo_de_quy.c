@@ -131,4 +131,20 @@ void depth_first_search (Graph* G) {
 	}
 }
 
+/* Dem so thanh phan lien thong cua do thi */
+int count_connected_components (Graph* G) {
+	/* Khoi tao mark, chua dinh nao duoc duyet */
+	int i;
+	for (i = 1; i <= G->n; i++)
+		mark[i] = 0;
+	int cnt = 0;
+	for (i = 1; i <= G->n; i++)
+		/* Neu dinh i chua duoc duyet, duyet no */
+		if (mark[i] == 0) {
+			traversal(G, i);
+			cnt++;
+		}
+	return cnt;
+}
+
 /****************************************************************************************/

@@ -52,7 +52,6 @@ int degrees (Graph* G, int x) {
 	return deg;
 }
 
-/****************************************************************************************/
 /***************************************** List *****************************************/
 typedef int ElementType;
 
@@ -93,7 +92,6 @@ List neighbors (Graph* G, int x) {
 	return L;
 }
 
-/****************************************************************************************/
 /***************************************** Stack *****************************************/
 typedef struct {
 	int data[MAX_ELEMENTS];
@@ -137,14 +135,7 @@ void depth_first_search (Graph* G) {
 	for (j = 1; j <= G->n; j++)
 		mark[j] = 0;
 		
-	/* Dua 1 vao frontier: Truong hop xet tu dinh dau tien */
-	printf("Xet tu dinh 1\n");
 	push(&frontier, 1);
-	
-	/* Dua vao dinh can xet: Truong hop nhap vao */
-//	int x; scanf("%d", &x); printf("Xet tu dinh %d\n", x);
-//	push(&frontier, x);
-//	mark[x] = 1;
 	
 	/* Vong lap chinh dung de duyet */
 	while (!empty(&frontier)) {
@@ -159,7 +150,7 @@ void depth_first_search (Graph* G) {
 		/* Xet cac dinh ke cua no */
 		for (j = 1; j <= list.size; j++) {
 			int y = element_at(&list, j);
-				push(&frontier, y);
+			push(&frontier, y);
 		}
 	}
 }

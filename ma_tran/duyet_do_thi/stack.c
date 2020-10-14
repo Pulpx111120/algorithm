@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <E:/LTDT/TH2/duyet_do_thi/duyet_chieu_sau_stack.c>
 
 int main() {
-	freopen("test1.inp", "r", stdin);
+	freopen("stack.inp", "r", stdin);
 	Graph G;
 	int n, m, i, j;
 	scanf("%d%d", &n, &m);
