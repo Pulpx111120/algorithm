@@ -1,0 +1,5 @@
+Hàng ưu tiên (PriorityQueue)
+
+-Là tập hợp trong đó mỗi phần tử là một cặp (giá trị ưu tiên, đối tượng); Có thể so sánh được các giá trị ưu tiên
+-Quan tâm đến việc tìm kiếm và loại bỏ đối tượng có gá trị ưu tiên nhỏ nhất
+-VD: (2,a), (3,b), (7,c), (10,d), (23,e), (30,f)

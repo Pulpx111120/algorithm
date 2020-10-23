@@ -1,0 +1,84 @@
+================================== Chia để trị ==================================
+
+Các bước thực hiện:
+-Divide: chia bài toán ban đầu thành một số bài toán con
+-Conquer: giải quyết các bài toán con một cách đệ quy. Nếu kích thức của bài toán con đủ nhỏ thì có thể giải trực tiếp
+-Combine: kết hợp lời giải của các bài toán con thành lời giải của bài toán ban đầu (có thể không cần bước này)
+
+VD: 	
+	-Sắp xếp trộn
+	-Sắp xếp nhanh
+	-Tìm kiếm nhị phân
+	-Nhân số nguyên lớn
+
+-Sắp xếp trộn (Merge Sort)
+
+Divide: Chia dãy n phần tử cần sắp xếp thành 2 dãy con, mỗi dãy có n/2 phần tử
+Conquer: Sắp xếp các dãy con bằng cách gọi đệ quy Merge Sort. Dãy con chỉ có 1 phần tử thì mặc nhiên có thứ tự, không cần sắp xếp
+Combine: Trộn 2 dãy con đã sắp xếp để tạo thành dãy ban đầu có thứ tự
+
+A	B	C
+1(i)	5(j)	1
+2	10	2
+9	15	5
+	20	9
+		10
+		15
+		20
+
+MergeSort(A, B, m, n){
+	i=j=k=0;
+	while(i<=m && j<=n){
+		if(A[i]<B[j])
+			C[k++]=A[i++];
+		else
+			C[k++]=B[j++];
+	for(;i<=m;i++)
+		C[k++]=A[i];
+	for(;j<=n;j++
+		C[k++]=B[j];
+	}
+}
+
+mergeSort(l, h){
+	if(l<h){
+		mid=(l+h)/2;
+		mergeSort(l, mid);
+		mergeSort(mid+1, h);
+		Merge(l, mid, h);
+	}
+}
+
+-Sắp xếp nhanh (Quick Sort): khóa phải lớn hơn ptu bên trái và bé hơn ptu bên phải
+6 5 (7) 14 10	i=3
+(1) 5 4 3	j=1
+2 1 (8)		k=8
+
+VD: (5) 8 2 10 5 12 8 1 15 4	-	pivot = 5
+
+partition(l, h){
+	i=l, j=h;
+	pivot=A[l];
+	while(i<j){
+		while(A[i]<=pivot) i++;
+		while(A[j]>pivot) j--;
+		if(i<j) Swap(A[i], A[j]);
+	}
+	return j;
+}
+
+quickSort(l, h){
+	if(l<h){
+		j=partition(l, h);
+		quickSort(l, j);
+		quickSort(j+1, h);
+	}
+}
+
+-Tìm kiếm nhị phân (BinarySearch)
+
+Divide: xác định phần tử giữa dãy. Nếu phần tử cần tìm bằng phần tử này thì trả về vị trí tìm được và kết thúc. Nếu phần tử cần tìm nhỏ hơn phần tử này thi ra chỉ cần tìm trong dãy con bên trái. Nếu phần tử cần tìm lớn hơn phần tử này thì ra chỉ cần tìm trong dãy con bên phải.
+
+A[i]:  1  5 7 8 (9) 10 11  18  19 22 25 30 35 40  45
+  i : (0) 1 2 3  4   5  6  (7)  8  9 10 11 12 13 (14)
+  	  left			       mid				     right
